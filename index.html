@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>魏晉弘醫師部落格互動知識庫</title>
+  <style>
+    :root {
+      --primary: #0284C7;
+      --primary-dark: #0369A1;
+      --secondary: #0D9488;
+      --bg: #F8FAFC;
+      --card-bg: #FFFFFF;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --border: #E2E8F0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background-color: var(--bg); color: var(--text-main); line-height: 1.6; }
+    
+    header { background: linear-gradient(135deg, #0284C7, #0D9488); color: white; padding: 2.5rem 1.5rem; text-align: center; }
+    header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    header p { opacity: 0.9; font-size: 0.95rem; }
+
+    .search-container { max-width: 600px; margin: 1.5rem auto 0; position: relative; }
+    .search-input { width: 100%; padding: 0.8rem 1.2rem; border-radius: 99px; border: none; font-size: 1rem; outline: none; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+
+    .nav-tabs { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; padding: 1.5rem 1rem 0; max-width: 1000px; margin: 0 auto; }
+    .nav-btn { padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid var(--border); background: white; color: var(--text-muted); font-weight: 500; cursor: pointer; transition: all 0.2s; }
+    .nav-btn.active, .nav-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+    main { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    
+    .card { background: var(--card-bg); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
+    .card-category { font-size: 0.8rem; font-weight: bold; color: var(--secondary); text-transform: uppercase; margin-bottom: 0.5rem; }
+    .card-title { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--text-main); }
+    .card-date { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.8rem; }
+    .card-summary { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; flex-grow: 1; }
+    
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+    .tag { background: #F1F5F9; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 4px; color: #475569; }
+
+    .card-btn { display: inline-block; text-align: center; background: var(--bg); color: var(--primary); font-weight: 600; padding: 0.5rem; border-radius: 6px; text-decoration: none; border: 1px solid var(--border); transition: background 0.2s; }
+    .card-btn:hover { background: #E0F2FE; }
+
+    footer { text-align: center; padding: 2rem 1rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 3rem; background: white; }
+    footer p.disclaimer { color: #EF4444; margin-top: 0.5rem; font-weight: 500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>魏晉弘醫師部落格互動知識庫</h1>
+    <p>小兒外科衛教資訊、臨床經驗與醫學內容線上檢索</p>
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="搜尋關鍵字或主題標籤...">
+    </div>
+  </header>
+
+  <nav class="nav-tabs" id="categoryNav">
+    <button class="nav-btn active" data-cat="all">全部文章</button>
+    <button class="nav-btn" data-cat="小兒微創與一般手術">小兒微創與一般手術</button>
+    <button class="nav-btn" data-cat="無肛症及泄殖腔異常">無肛症及泄殖腔異常</button>
+    <button class="nav-btn" data-cat="臨床案例與衛教隨筆">臨床案例與衛教隨筆</button>
+    <button class="nav-btn" data-cat="醫學研究與演講記錄">醫學研究與演講記錄</button>
+  </nav>
+
+  <main>
+    <div class="grid" id="articlesGrid"></div>
+  </main>
+
+  <footer>
+    <p>© 魏晉弘醫師部落格互動知識庫 All Rights Reserved.</p>
+    <p class="disclaimer">⚠️ 本網站衛教內容僅供參考，不能替代專業醫師現場診斷與治療。</p>
+  </footer>
+
+  <script>
+    const articles = [
+      {
+        id: "post-001",
+        title: "單孔腹腔鏡小兒疝氣手術照顧須知",
+        url: "https://chinhungwei.blogspot.com/",
+        date: "2024-03-15",
+        category: "小兒微創與一般手術",
+        tags: ["小兒疝氣", "單孔腹腔鏡", "術後照顧"],
+        summary: "介紹單孔腹腔鏡疝氣手術的優點與家長在術後如何照護傷口與觀察復原狀況。"
+      },
+      {
+        id: "post-002",
+        title: "無肛症術後腸道健康與灌腸照護指導",
+        url: "https://chinhungwei.blogspot.com/",
+        date: "2024-02-10",
+        category: "無肛症及泄殖腔異常",
+        tags: ["無肛症", "馬龍式順行性灌腸", "腸道照護"],
+        summary: "說明無肛症病童術後的排便管理策略與馬龍式順行性灌腸（Malone ACE）實務照護建議。"
+      },
+      {
+        id: "post-003",
+        title: "門診常見問答：寶寶舌繫帶過短需要手術嗎？",
+        url: "https://chinhungwei.blogspot.com/",
+        date: "2024-01-20",
+        category: "臨床案例與衛教隨筆",
+        tags: ["舌繫帶", "門診諮詢", "小兒衛教"],
+        summary: "針對家長最常詢問的舌繫帶問題進行詳細解答，評估哺乳影響與手術時機。"
+      },
+      {
+        id: "post-004",
+        title: "2023 亞洲小兒外科學會研討會發表心得",
+        url: "https://chinhungwei.blogspot.com/",
+        date: "2023-11-05",
+        category: "醫學研究與演講記錄",
+        tags: ["學術研討會", "醫學研究", "演講分享"],
+        summary: "分享參加亞洲小兒外科學會最新微創技術研討心得與臨床教學紀錄。"
+      }
+    ];
+
+    function renderArticles(data) {
+      const grid = document.getElementById('articlesGrid');
+      grid.innerHTML = data.map(item => `
+        <article class="card">
+          <div>
+            <div class="card-category">${item.category}</div>
+            <h2 class="card-title">${item.title}</h2>
+            <div class="card-date">${item.date}</div>
+            <p class="card-summary">${item.summary}</p>
+            <div class="tags">
+              ${item.tags.map(t => `<span class="tag">#${t}</span>`).join('')}
+            </div>
+          </div>
+          <a href="${item.url}" target="_blank" class="card-btn">閱讀全文</a>
+        </article>
+      `).join('');
+    }
+
+    renderArticles(articles);
+
+    // 搜尋與分類動態過濾
+    let activeCat = 'all';
+    let searchQuery = '';
+
+    function filterArticles() {
+      const filtered = articles.filter(a => {
+        const matchCat = activeCat === 'all' || a.category === activeCat;
+        const matchQuery = a.title.includes(searchQuery) || 
+                           a.summary.includes(searchQuery) || 
+                           a.tags.some(t => t.includes(searchQuery));
+        return matchCat && matchQuery;
+      });
+      renderArticles(filtered);
+    }
+
+    document.getElementById('categoryNav').addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        activeCat = e.target.dataset.cat;
+        filterArticles();
+      }
+    });
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim();
+      filterArticles();
+    });
+  </script>
+</body>
+</html>
